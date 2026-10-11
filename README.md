@@ -1,23 +1,22 @@
 # OptomVisuals
 
-Fabric client mod source project for Minecraft 1.21.4 / Java 21.
+A visual-only Fabric client mod fork based on the supplied project (Minecraft 1.21.4 / Java 21).
 
-## Build with GitHub Actions
+## Changes in this cleanup
+- Renamed the Fabric mod metadata to `optomvisuals` / `OptomVisuals`.
+- Disabled registration of the legacy Reform module system.
+- Restricted the remaining module registry to visual/render modules. Combat, movement, player automation, and exploit modules are not registered.
 
-The workflow at [Build OptomVisuals](.github/workflows/build.yml) runs on pushes to `main` and can also be started manually from the **Actions** tab. On success, it uploads `build/libs/*.jar` as an artifact named `OptomVisuals-JAR`.
+## Build
+Requires Java 21 and network access for Gradle/Maven dependencies.
 
-## Current repository status
+Linux/macOS: `./gradlew build`
+Windows: `gradlew.bat build`
 
-The build workflow has been committed and validated by GitHub Actions, but the actual Java source tree has **not** been uploaded yet. The latest workflow run fails at the source-file check because this repository does not currently contain `build.gradle`, `gradlew`, and `src/main/java/`.
+The resulting mod jar should be in `build/libs/`.
 
-The prepared source archive is organized under an `OptomVisuals/` directory. The workflow supports either that nested layout or files placed directly at the repository root, once those files are transferred.
+## Not yet implemented
+Spotify-synchronized World Lyrics and configurable Hit Sounds (CJ / Pderfvb / UWU / optional moan sound) are not included in this cleanup build. Spotify lyrics require a lyrics source/API and user-authorized Spotify playback integration; lyric availability and synchronization vary by track. These should be implemented and tested separately rather than represented as already working.
 
-## Build locally
-
-After the source tree is present, use Java 21 and run:
-
-```bash
-./gradlew build
-```
-
-(or run `./gradlew build` from the nested `OptomVisuals/` folder). The built JAR should be in `build/libs/`.
+## GitHub
+Create a repository named `OptomVisuals` under your account and push this project. A GitHub login/token or connected GitHub account is required to publish directly; none was provided for this task.
