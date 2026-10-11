@@ -14,6 +14,13 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
+      - name: Check project files
+        run: |
+          if [ ! -f build.gradle ] || [ ! -d src/main/java ] || [ ! -f gradlew ]; then
+            echo "::error::OptomVisuals source is missing from the repository root."
+            echo "Upload the project contents (build.gradle, gradlew, src/main/java, src/main/resources, etc.) to the main branch, then rerun this workflow."
+            exit 1
+          fi
       - name: Set up Java 21
         uses: actions/setup-java@v4
         with:
