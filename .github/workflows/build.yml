@@ -14,28 +14,40 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
-      - name: Check project files
+
+      - name: Locate project
+        id: locate
+        shell: bash
         run: |
-          if [ ! -f build.gradle ] || [ ! -d src/main/java ] || [ ! -f gradlew ]; then
-            echo "::error::OptomVisuals source is missing from the repository root."
-            echo "Upload the project contents (build.gradle, gradlew, src/main/java, src/main/resources, etc.) to the main branch, then rerun this workflow."
+          if [ -f build.gradle ] && [ -f gradlew ] && [ -d src/main/java ]; then
+            echo "dir=." >> "$GITHUB_OUTPUT"
+          elif [ -f OptomVisuals/build.gradle ] && [ -f OptomVisuals/gradlew ] && [ -d OptomVisuals/src/main/java ]; then
+            echo "dir=OptomVisuals" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::OptomVisuals Java source has not been uploaded to this repository."
+            echo "Expected build.gradle, gradlew, and src/main/java at repository root (or under OptomVisuals/)."
             exit 1
           fi
+
       - name: Set up Java 21
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
+
       - name: Build mod
+        working-directory: ${{ steps.locate.outputs.dir }}
         run: |
           chmod +x ./gradlew
           ./gradlew --no-daemon build
+
       - name: Upload JAR
         uses: actions/upload-artifact@v4
         with:
           name: OptomVisuals-JAR
-          path: build/libs/*.jar
+          path: ${{ steps.locate.outputs.dir }}/build/libs/*.jar
           if-no-files-found: error
           retention-days: 14
