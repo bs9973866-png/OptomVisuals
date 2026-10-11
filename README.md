@@ -1,23 +1,23 @@
 # OptomVisuals
 
-Fabric client mod project for Minecraft 1.21.4 / Java 21.
+Fabric client mod source project for Minecraft 1.21.4 / Java 21.
 
-## GitHub Actions
+## Build with GitHub Actions
 
-The workflow in `.github/workflows/build.yml` builds the mod on pushes to `main` and supports manual runs from the **Actions** tab. When a build succeeds, the JAR is uploaded as the `OptomVisuals-JAR` artifact.
+The workflow at [Build OptomVisuals](.github/workflows/build.yml) runs on pushes to `main` and can also be started manually from the **Actions** tab. On success, it uploads `build/libs/*.jar` as an artifact named `OptomVisuals-JAR`.
 
-## Required source layout
+## Current repository status
 
-The repository root must contain `build.gradle`, `settings.gradle`, `gradle.properties`, `gradlew`, `gradle/wrapper/gradle-wrapper.jar`, `src/main/java/`, and `src/main/resources/`.
+The build workflow has been committed and validated by GitHub Actions, but the actual Java source tree has **not** been uploaded yet. The latest workflow run fails at the source-file check because this repository does not currently contain `build.gradle`, `gradlew`, and `src/main/java/`.
 
-**Current status:** the GitHub Actions workflow is committed, but the project's source tree has not been transferred into this repository yet. The build will remain blocked until those project files are pushed to `main`.
+The prepared source archive is organized under an `OptomVisuals/` directory. The workflow supports either that nested layout or files placed directly at the repository root, once those files are transferred.
 
 ## Build locally
 
-Requires Java 21 and network access for Gradle/Maven dependencies:
+After the source tree is present, use Java 21 and run:
 
 ```bash
 ./gradlew build
 ```
 
-The resulting JAR should be in `build/libs/`.
+(or run `./gradlew build` from the nested `OptomVisuals/` folder). The built JAR should be in `build/libs/`.
